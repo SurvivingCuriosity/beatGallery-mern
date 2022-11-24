@@ -1,0 +1,31 @@
+.fade-in{animation: fade-in 0.25s ease-in-out forwards; transition: transform 0.25s ease-in-out;}
+.fade-out{animation: fade-out 0.5s ease-in-out forwards ;}
+.slide-down{animation: slide-down 5s ease-in-out forwards;transition: translate 0.25s ease-in-out;}
+
+@keyframes fade-in{
+    0%{opacity: 0;transform: scale(1.1);}
+    100%{opacity: 1;transform: scale(1)}
+}
+@keyframes fade-out{
+    0%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
+
+@keyframes slide-down{
+    0% {
+        transform:translate(0, -5em);
+    }
+    25% {
+        transform:translate(0, 10em);
+    }
+    50% {
+        transform:translate(0, 10em);
+    }
+    75% {
+        transform:translate(0, 10em);
+    }
+    100% {
+        transform:translate(0, -5em);
+    }
+}
