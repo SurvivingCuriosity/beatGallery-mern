@@ -1,0 +1,16 @@
+{
+    "version": 1,
+    "name": "beat-gallery-mern-api",
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/server.js"
+        }
+    ]
+}
