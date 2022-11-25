@@ -18,7 +18,7 @@ const authConfig = {
 //se lanza tras logearse o registrarse
 export const fetchUserPrivateData = async () => {
     try {
-        const res = await axios.get(`/api/user/private`, {
+        const res = await axios.get(`https://beatgallery-api.vercel.app/api/user/private`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,

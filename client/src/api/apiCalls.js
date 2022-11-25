@@ -53,7 +53,7 @@ export const getUserPrivateData = async () => {
 
 export const buscarUsuario = async (userText) => {
     try {
-        const { data } = await axios.get(`/api/user/buscar/${userText}`, authConfig);
+        const { data } = await axios.get(`https://beatgallery-api.vercel.app/api/user/buscar/${userText}`, authConfig);
         return data;
     } catch (error) {
         handleAPIError(error)
@@ -65,7 +65,7 @@ export const buscarUsuario = async (userText) => {
 
 export const getBeatById = async (beatId) => {
     try {
-        const res = await axios.get(`/api/beat/${beatId}`, authConfig);
+        const res = await axios.get(`https://beatgallery-api.vercel.app/api/beat/${beatId}`, authConfig);
         return res;
         // console.log(data);
         // navigate(`/${localStorage.getItem('username')}/beats`);
@@ -78,7 +78,7 @@ export const getBeatById = async (beatId) => {
 
 export const addBeat = async (beatInfo) => {
     try {
-        const res = await axios.post("/api/beat/add", { ...beatInfo }, {
+        const res = await axios.post("https://beatgallery-api.vercel.app/api/beat/add", { ...beatInfo }, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -92,7 +92,7 @@ export const addBeat = async (beatInfo) => {
 
 export const updateBeat = async (beatInfo) => {
     try {
-        const res = await axios.put("/api/beat/:id", { ...beatInfo }, authConfig);
+        const res = await axios.put("https://beatgallery-api.vercel.app/api/beat/:id", { ...beatInfo }, authConfig);
         return res;
         // console.log(data);
         // navigate(`/${localStorage.getItem('username')}/beats`);
