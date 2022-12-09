@@ -1,8 +1,8 @@
-import { React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 import ReactPortal from "./Portal";
-export const Modal = ({ children, isOpen, handleClose }) => {
-    const TIEMPO = 5000;
-    const [fadeOut, setFadeOut] = useState(false);
+export const Modal = ({ children, isOpen, handleClose, isError, isSuccess }) => {
+    const TIEMPO = 3000;
+    const [cerrarModal, setCerrarModal] = useState(false);
 
     useEffect(() => {
         const closeOnEscapeKey = e => e.key === "Escape" ? handleClose() : null;
@@ -15,16 +15,11 @@ export const Modal = ({ children, isOpen, handleClose }) => {
 
 
     useEffect(() => {
-        let closeTimeout;
         const modalTimeout = setTimeout(() => {
-            setFadeOut(true);
-            closeTimeout = setTimeout(() => {
-                handleClose()
-            }, 500);
+            setCerrarModal(true);
         }, TIEMPO);
 
         return () => {
-            clearTimeout(closeTimeout)
             clearTimeout(modalTimeout)
         };
     }, []);
@@ -33,11 +28,20 @@ export const Modal = ({ children, isOpen, handleClose }) => {
 
     return (
         <ReactPortal wrapperId="portal-root-modal">
-            <div className="modal">
-                <div className={`modal-content ${fadeOut && 'fade-out-disappear'}`}>
-                <button onClick={handleClose} className="modal-close-btn">
-                    X
-                </button>
+            <div className="modal fade-out-afer-3s">
+                <div
+                    className={`modal-content 
+                        ${isError === false ? '' : 'modal-error'}
+                        ${isSuccess === false ? '' : 'modal-success'}`
+                    }
+
+                >
+                    <button onClick={handleClose} className={`modal-close-btn 
+                        ${isError === false ? '' : 'modal-btn-error'}
+                        ${isSuccess === false ? '' : 'modal-btn-success'}`
+                    }>
+                        x
+                    </button>
                     {children}
                 </div>
             </div>

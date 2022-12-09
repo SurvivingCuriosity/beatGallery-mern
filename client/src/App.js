@@ -21,37 +21,25 @@ import EditBeatScreen from './components/screens/private/EditBeatScreen';
 import AddBeatScreen from './components/screens/private/AddBeatScreen';
 import { Modal } from "./components/utils/Modal";
 import { getUserPrivateDataAction } from './redux/Actions';
-import { Spinner } from './components/utils/Spinner';
+
 const App = () => {
 	const dispatch = useDispatch();
-	// const navigate = useNavigate();
-	const { token, loading, msg, error } = useSelector((state) => state);
-	// const {username} = useSelector((state)=>state?.userData)
-	const [mostrarMsg, setMostrarMsg] = React.useState(false);
+	const { token, loading, msg, error, success, updateData } = useSelector((state) => state);
 
 	React.useEffect(() => {
-		if (loading) { setMostrarMsg(true) }
-		if (msg === 'Auth success') {
-			if (!loading && !error) {
-				dispatch(getUserPrivateDataAction());
-			}
+		console.log(msg);
+		if (msg !== '') {
+			setOpenModal(true);
 		}
-		if (msg === 'Beat added succesfully') {
-			if (!loading && !error) {
-				dispatch(getUserPrivateDataAction());
-			}
+		else {
+			setOpenModal(false)
 		}
-	}, [msg]);
 
-	React.useEffect(() => {
-		const msgTimeout = setTimeout(() => {
-			setMostrarMsg(false)
-		}, 3000);
+		if (updateData) {
+			dispatch(getUserPrivateDataAction());
+		}
+	}, [msg, loading, error, dispatch]);
 
-		return (() => {
-			clearTimeout(msgTimeout)
-		})
-	}, [mostrarMsg])
 
 
 	const [openModal, setOpenModal] = React.useState(false);
@@ -62,16 +50,19 @@ const App = () => {
 
 	return (
 		<Router>
-			{mostrarMsg
-				? <div className='popup-mensaje'>
-					<p>{msg}</p>
-					{error && <p className='error'>{error}</p>}
-					<Spinner />
-				</div>
-				:
+			{
 				<div className='App'>
-					<Modal isOpen={openModal} handleClose={closeModal}>
-						<p>{msg}</p>
+					{loading && <div className='popup-msg'>{msg}</div>}
+
+					<Modal
+						isOpen={openModal}
+						handleClose={closeModal}
+						isError={error === false ? false : error}
+						isSuccess={success === true ? true : false}
+					>
+						{error && <p>{error}</p>}
+						{msg && <p>{msg}</p>}
+
 					</Modal>
 
 					<Routes>
@@ -101,5 +92,3 @@ const App = () => {
 }
 
 export default App;
-//cambio hecho en primer commit feature 2
-//segundo cambio hecho en segundo commit feature 2

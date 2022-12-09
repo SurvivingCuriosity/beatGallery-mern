@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { PasswordInput } from '../../utils/PasswordInput';
 import { FlexRow } from "../../containers/FlexRow";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { editProfileAction } from "../../../redux/Actions";
 import { Caja } from "../../containers/Caja";
 import { FloatingButton } from "../../utils/FloatingButton";
 import { ScreenWithNav } from "../../containers/ScreenWithNav";
@@ -11,6 +12,7 @@ import instagram from '../../../assets/imgs/icons/instagram.svg'
 import youtube from '../../../assets/imgs/icons/youtube.svg'
 
 const EditProfileScreen = () => {
+    const dispatch = useDispatch();
     const  userData = useSelector((state) => state.userData);
     const [newData, setNewData] = React.useState(userData);
     const [mostrandoFormPass, setMostrandoFormPass] = useState(false);
@@ -36,12 +38,14 @@ const EditProfileScreen = () => {
     }
 
 
-    const updateProfileHandler = (e) => { }
+    const updateProfileHandler = (e) => {
+        dispatch(editProfileAction(newData));
+    }
 
     return (
         <ScreenWithNav titulo='Edit profile'>
             {error && <div>{error}</div>}
-            <form noValidate onSubmit={updateProfileHandler} className="login-register-form fade-in" autoComplete="off">
+            <form noValidate className="login-register-form fade-in" autoComplete="off">
                 <Caja titulo='Main info'>
                     {/* USERNAME */}
 
@@ -129,7 +133,7 @@ const EditProfileScreen = () => {
                     <label htmlFor="edit-name-label">Name:</label>
                     <input
                         name='name'
-                        value={newData.name}
+                        value={newData.name || ''}
                         onChange={(evt) => { setNewData({ ...newData, name: evt.target.value }) }}
                         id='edit-name-label'
                         required
@@ -139,7 +143,7 @@ const EditProfileScreen = () => {
                     <label htmlFor="edit-aboutme-label">About me:</label>
                     <input
                         name='aboutme'
-                        value={newData.aboutme}
+                        value={newData.aboutme || ''}
                         onChange={(evt) => { setNewData({ ...newData, aboutme: evt.target.value }) }}
                         id='edit-aboutme-label'
                         required
@@ -149,7 +153,7 @@ const EditProfileScreen = () => {
                     <label htmlFor="edit-location-label">Location:</label>
                     <input
                         name='location'
-                        value={newData.location}
+                        value={newData.location || ''}
                         onChange={(evt) => { setNewData({ ...newData, location: evt.target.value }) }}
                         id='edit-location-label'
                         required
@@ -161,7 +165,7 @@ const EditProfileScreen = () => {
                         <img style={{ width: '1.5em' }} src={twitter}></img>
                         <input
                             name='twitter'
-                            value={newData.twitter}
+                            value={newData.twitter || ''}
                             onChange={(evt) => { setNewData({ ...newData, twitter: evt.target.value }) }}
                             id='edit-redes-label'
                             required
@@ -173,7 +177,7 @@ const EditProfileScreen = () => {
                         <img style={{ width: '1.5em' }} src={instagram}></img>
                         <input
                             name='instagram'
-                            value={newData.instagram}
+                            value={newData.instagram || ''}
                             onChange={(evt) => { setNewData({ ...newData, instagram: evt.target.value }) }}
                             required
                             type='text'
@@ -184,7 +188,7 @@ const EditProfileScreen = () => {
                         <img style={{ width: '1.5em' }} src={spotify}></img>
                         <input
                             name='spotify'
-                            value={newData.spotify}
+                            value={newData.spotify || ''}
                             onChange={(evt) => { setNewData({ ...newData, spotify: evt.target.value }) }}
                             required
                             type='text'
@@ -195,7 +199,7 @@ const EditProfileScreen = () => {
                         <img style={{ width: '1.5em' }} src={youtube}></img>
                         <input
                             name='youtube'
-                            value={newData.youtube}
+                            value={newData.youtube || ''}
                             onChange={(evt) => { setNewData({ ...newData, youtube: evt.target.value }) }}
                             required
                             type='text'
@@ -205,7 +209,7 @@ const EditProfileScreen = () => {
 
                 </Caja>
             </form>
-            <FloatingButton action='save'/>
+            <FloatingButton callback={updateProfileHandler} action='save'/>
 
         </ScreenWithNav>
     );

@@ -24,6 +24,7 @@
     --colorFocusInput: rgba(200, 200, 200, 0.74);
 
     --error: #ff3333;
+    --success: #59e052;
 }
 
 html[data-theme="dark"] {
@@ -45,28 +46,53 @@ html {
 }
 
 .modal {
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
+    z-index: 100;
+    position: absolute;
     top: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .modal-content {
-    padding: 2em 4em;
+    padding: 1.2em 2.5em;
     background-color: var(--fondo);
     border-radius: 11px;
     animation: slideIn 0.5s ease-out forwards;
-    border: 2px solid var(--color4);
+    border: 2px solid var(--gris);
+    color: var(--gris);
     transform: translateY(-10em);
+}
+
+.modal-error {
+    border: 2px solid var(--error);
+    color: var(--error);
+}
+
+.modal-success {
+    border: 2px solid var(--success);
+    color: var(--success);
+}
+
+.modal-btn-error {
+    color: var(--error) !important;
+}
+
+.modal-btn-success {
+    color: var(--success) !important;
 }
 
 .modal-close-btn {
     position: absolute;
-    top: 0.5em;
-    right: 0.5em;
+    top: 0.25em;
+    right: 0.25em;
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin: 0;
+    line-height: inherit;
     color: var(--blanco2);
 }
 
@@ -77,6 +103,31 @@ html {
 
     100% {
         transform: translateY(0em);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0%;
+    }
+
+}
+
+.fade-out-afer-3s {
+    animation-name: fadeOutAfter3s;
+    animation-duration: 0.5s;
+    animation-delay: 3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOutAfter3s {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
     }
 }
 
@@ -241,6 +292,10 @@ a {
     justify-content: center;
 }
 
+.floating-button:disabled {
+    background-color: var(--gris);
+}
+
 .floating-button img {
     width: 2em;
     aspect-ratio: 1;
@@ -299,6 +354,11 @@ a {
     -webkit-animation: spin 1s ease-in-out infinite;
 }
 
+.loading-btn {
+    width: 25px;
+    height: 25px;
+}
+
 @keyframes spin {
     to {
         -webkit-transform: rotate(360deg);
@@ -316,6 +376,8 @@ a {
 /*SCREENS*/
 .popup-mensaje {
     background-color: var(--negroTrans);
+    color: var(--error);
+    border: 2px solid var(--error);
     position: fixed;
     height: 100%;
     width: 100%;
@@ -605,6 +667,7 @@ input[type='password']:focus::placeholder {
     background-color: var(--color4);
     border-radius: 40%;
     color: var(--color4);
+    transition: background-color 0.5s ease-out;
 }
 
 .menu-item-text-activo {
@@ -661,11 +724,14 @@ input[type='password']:focus::placeholder {
         "userBeats savedBeats";
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5em;
+    width: 100%;
 }
-.--user-profile-username{
+
+.--user-profile-username {
     font-size: 2.3em !important;
     font-variant: all-small-caps;
 }
+
 .--user-profile-tag {
     padding: 0.35em 0.6em;
     font-size: 0.8em;

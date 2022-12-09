@@ -29,7 +29,10 @@ const RegisterScreen = () => {
 
     const registerHandler = async (evt) => {
         evt.preventDefault();
-        dispatch(registerAction({ username, email, password, isProducer, isArtist }, navigate, evt));
+        if (username !== '' && email !== '' && password !== '')
+            dispatch(registerAction({ username, email, password, isProducer, isArtist }, navigate, evt));
+        else
+            setError('asdasd')
     }
 
     const handleCheckbox = (e) => {
@@ -59,8 +62,8 @@ const RegisterScreen = () => {
                     id='register-user-label'
                     required
                     type='text'
-                    placeholder="Enter username...">
-
+                    placeholder="Enter username..."
+                >
                 </input>
 
                 <label htmlFor="register-email-label">Email:</label>
@@ -75,11 +78,12 @@ const RegisterScreen = () => {
                 </input>
                 <label htmlFor="register-pass-label">Password:</label>
                 <PasswordInput
-                    tieneError = {password !== confirmPassword && confirmPassword!=='' && true}
-                    coincide = {password === confirmPassword && true}
+                    tieneError={password !== confirmPassword && confirmPassword !== '' && true}
+                    coincide={password === confirmPassword && true}
                     placeholder='Enter password'
                     onChangeCallback={(pass) => { setPassword(pass) }}
                     id='register-pass-label'
+                    required
                 />
                 <label htmlFor="register-confirmPass-label">Confirm password:</label>
                 <PasswordInput
@@ -88,6 +92,7 @@ const RegisterScreen = () => {
                     coincide={password === confirmPassword && true}
                     onChangeCallback={(pass) => { setConfirmPassword(pass) }}
                     id='register-confirmPass-label'
+                    required
                 />
                 <div style={{ display: 'flex', gap: '0.5em', alignItems: 'baseline' }}>
                     <input

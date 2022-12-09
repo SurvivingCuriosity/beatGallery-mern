@@ -2,7 +2,7 @@ import React from "react";
 import { ScreenWithNav } from "../../containers/ScreenWithNav";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addBeatAction } from "../../../redux/Actions";
+import { editBeatAction } from "../../../redux/Actions";
 import { BeatForm } from "../../forms/BeatForm";
 const EditBeatScreen = (props) => {
     const navigate = useNavigate();
@@ -13,16 +13,14 @@ const EditBeatScreen = (props) => {
     let editingBeat = useSelector((state) =>  state.userData.beats);
     editingBeat = editingBeat.filter(beat=>(beat._id === beatId))[0]
 
-    const [beatInfo, setBeatInfo] = React.useState(editingBeat)
-
     async function editBeatHandler(beatInfo) {
-        dispatch(addBeatAction(beatInfo, navigate));
+        console.log('En edit beat hndler');
+        dispatch(editBeatAction(beatInfo));
     }
 
     return (
         <ScreenWithNav titulo='Edit beat'>
-            <BeatForm onSubmitCallback={editBeatHandler} action='edit' data={beatInfo}/>
-
+            <BeatForm onSubmitCallback={editBeatHandler} action='edit' data={editingBeat}/>
         </ScreenWithNav>
     );
 };

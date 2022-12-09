@@ -1,4 +1,8 @@
 import axios from 'axios'
+const CURRENT_STATUS = 'prod' //prod || dev
+const API_PREFIX_DEV = ''
+const API_PREFIX_PROD = 'https://beatgallery-api.vercel.app'
+const API_PREFIX = CURRENT_STATUS === 'dev' ? API_PREFIX_DEV : API_PREFIX_PROD;
 
 //para peticiones 'publicas' que no requieren token de autenticacion
 const config = {
@@ -6,66 +10,137 @@ const config = {
         "Content-Type": "application/json",
     },
 }
-//para peticiones privadas que requieren token de autenticación
-const authConfig = {
-    headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    },
-}
 
-//TODO: HANDLE ERRORS
-export const getUserPrivateBeats = async () => {
+export const login = async (formData) => {
+    const { email, password } = formData;
     try {
-        const res = await axios.get(`/api/user/private/beats`, authConfig);
+        const res = await axios.post(`${API_PREFIX}/api/user/login`, { email, password }, config);
+        /*
+            {
+                data: {success: true, token: XXXXXXXXXXXXXXXXX}
+                status: XXX
+            }
+        */
         return res;
     } catch (error) {
-        handleAPIError(error)
-        //localStorage.removeItem("authToken");
-        // setError("You are not authorized please login");
-        // navigate('/login')
+        return error.response;
     }
 }
 
+export const register = async (formData) => {
+    const { username, email, password, isProducer, isArtist } = formData;
+    try {
+        const res = await axios.post(`${API_PREFIX}/api/user/register`, { username, email, password, isProducer, isArtist }, config)
+        /*
+            {
+                data: {success: true, token: XXXXXXXXXXXXXXXXX}
+                status: XXX
+            }
+        */
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+//se lanza tras logearse o registrarse
+export const fetchUserPrivateData = async () => {
+    try {
+        const res = await axios.get(`${API_PREFIX}/api/user/private`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
+        return res;
+        /*
+            {
+                data: {success: true, userPrivateData:{_id:askjndaksd,}}
+                status: XXX
+            }
+        */
+    } catch (error) {
+        // handleAPIError(error)
+        console.log(error);
+    }
+}
+
+
 export const getUserPublicData = async (username) => {
     try {
-        const res = await axios.get(`/api/user/public/${username}`, authConfig);
+        const res = await axios.get(`${API_PREFIX}/api/user/public/${username}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
         return res
     } catch (error) {
         handleAPIError(error)
-        //localStorage.removeItem("authToken");
-        // setError("You are not authorized please login");
-        // navigate('/login')
     }
 }
 
 export const getUserPrivateData = async () => {
     try {
-        const res = await axios.get(`/api/user/private`, authConfig);
+        const res = await axios.get(`${API_PREFIX}/api/user/private`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
         return res
     } catch (error) {
         handleAPIError(error)
-        //localStorage.removeItem("authToken");
-        // setError("You are not authorized please login");
-        // navigate('/login')
     }
 }
 
 export const buscarUsuario = async (userText) => {
     try {
-        const { data } = await axios.get(`https://beatgallery-api.vercel.app/api/user/buscar/${userText}`, authConfig);
+        const { data } = await axios.get(`${API_PREFIX}/api/user/buscar/${userText}`, config);
         return data;
     } catch (error) {
         handleAPIError(error)
-        //localStorage.removeItem("authToken");
-        // setError("You are not authorized please login");
-        // navigate('/login')
     }
 }
 
 export const getBeatById = async (beatId) => {
     try {
-        const res = await axios.get(`https://beatgallery-api.vercel.app/api/beat/${beatId}`, authConfig);
+        const res = await axios.get(`${API_PREFIX}/api/beat/${beatId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        handleAPIError(error)
+    }
+}
+
+export const addBeat = async (beatInfo) => {
+    try {
+        const res = await axios.post(`${API_PREFIX}/api/beat/add`, { ...beatInfo }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        return error.response.data;
+    }
+}
+
+export const editBeat = async (beatInfo) => {
+    console.log('En edit beat');
+    console.log(beatInfo);
+    try {
+        const res = await axios.put(`${API_PREFIX}/api/beat/update`, { ...beatInfo }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
         return res;
         // console.log(data);
         // navigate(`/${localStorage.getItem('username')}/beats`);
@@ -76,23 +151,14 @@ export const getBeatById = async (beatId) => {
     }
 }
 
-export const addBeat = async (beatInfo) => {
+export const editUser = async (newData) => {
     try {
-        const res = await axios.post("https://beatgallery-api.vercel.app/api/beat/add", { ...beatInfo }, {
+        const res = await axios.put(`${API_PREFIX}/api/user/update`, { ...newData }, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             },
         });
-        return res.data;
-    } catch (error) {
-        return error.response.data;
-    }
-}
-
-export const updateBeat = async (beatInfo) => {
-    try {
-        const res = await axios.put("https://beatgallery-api.vercel.app/api/beat/:id", { ...beatInfo }, authConfig);
         return res;
         // console.log(data);
         // navigate(`/${localStorage.getItem('username')}/beats`);
@@ -107,6 +173,7 @@ export const handleAPIError = (err) => {
     let errormsg;
     console.log(err);
     const token = err.config.headers.Authorization.split(' ')[1];
+    console.log(err);
 
     if (!token) errormsg = 'no token'
     console.log('===ERROR EN APICALL=== ' + errormsg);

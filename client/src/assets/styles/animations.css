@@ -1,6 +1,6 @@
 .fade-in{animation: fade-in 0.25s ease-in-out forwards; transition: transform 0.25s ease-in-out;}
 .fade-out{animation: fade-out 0.5s ease-in-out forwards ;}
-.slide-down{animation: slide-down 5s ease-in-out forwards;transition: translate 0.25s ease-in-out;}
+.slide-down{animation: slide-down 3s ease-in-out forwards; transition: translate 0.15s ease-in-out;}
 
 @keyframes fade-in{
     0%{opacity: 0;transform: scale(1.1);}

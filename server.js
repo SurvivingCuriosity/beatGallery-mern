@@ -2,12 +2,12 @@ require('dotenv').config({ path: './config.env' });
 const cors = require('cors')
 const express = require('express');
 const app = express();
-const connectDB = require('./config/db')
+const connectDB = require('./db/connectDb')
 const errorHandler = require('./middleware/error')
 
 connectDB();
-//test feature
-app.use(cors())
+
+app.use(cors());
 app.use(express.json()); //middleware para obtener informacion del cuerpo en formato json
 app.use('/api/user', require('./routes/user'))//user info CRUD & login
 app.use('/api/beat', require('./routes/beat'))//beat CRUD

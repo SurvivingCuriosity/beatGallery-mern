@@ -5,13 +5,11 @@ const ErrorResponse = require("../utils/errorResponse");
 
 exports.addBeat = async (req, res, next) => {
     console.log('CONTROLLER: en add beat');
-    console.log('LA REQ');
-    console.log(req.body);
 
-    const {  userId, name, genre, tags, key, scale, tempo, isAvailable, isFree, isVisible } = req.body;
+    const { userId, name, genre, tags, key, scale, tempo, isAvailable, isFree, isVisible } = req.body;
     let user;
     try {
-        user = await User.findOne({ userId });
+        user = await User.findById(userId);
     } catch (err) {
         return console.log(err);
     }
@@ -24,9 +22,14 @@ exports.addBeat = async (req, res, next) => {
     try {
         const savedBeat = await newBeat.save();
         console.log('se guardo el beat');
+        console.log(savedBeat);
 
         user.beats = user.beats.concat(savedBeat._id);
         await user.save();
+
+        console.log('se guardo el user');
+        console.log(user);
+
         res.status(200).json({ success: true, savedBeat })
     } catch (err) {
         console.log(err);
@@ -42,11 +45,24 @@ exports.deleteBeat = (req, res, next) => {
     });
 };
 
-exports.updateBeat = (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: "beat updated",
-    });
+exports.editBeat = async (req, res) => {
+    console.log('EN CONTROLLER EDIT BEAT');
+    console.log(req.body);
+    const { _id } = req.body;
+
+    try {
+        // have to change this
+        const updatedBeat = await Beat.findByIdAndUpdate(_id, req.body, {
+            new: true,
+        });
+
+        console.log({ updatedBeat })
+        res.status(200).json({ success: true, updatedBeat })
+    } catch (error) {
+        console.log("Error agya hy")
+        res.status(500).json(error);
+    }
+
 };
 
 exports.getAllBeats = async (req, res, next) => {

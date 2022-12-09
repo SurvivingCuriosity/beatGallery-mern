@@ -44,7 +44,7 @@ exports.register = async (req, res, next) => {
       username,
       email,
       password,
-      isProducer, 
+      isProducer,
       isArtist
     });
 
@@ -171,14 +171,13 @@ exports.getUserPublicData = async (req, res, next) => {
 exports.getUserPrivateData = async (req, res, next) => {
   console.log('CONTROLLER: getUserPrivateData');
   const userId = req.body.userId;
-  console.log(userId);
+  console.log('El id:' +userId);
   try {
-    const data = await User.findById(userId).populate("beats", {
+    const  userPrivateData  = await User.findById(userId).populate("beats", {
       userId: 0,
       __v: 0
     });
-    console.log(data);
-    res.status(200).json({ success: true, data })
+    res.status(200).json({ success: true, userPrivateData })
   } catch (err) {
     next(err);
   }
@@ -255,6 +254,24 @@ exports.buscarUsuario = async (req, res, next) => {
 
   res.status(200).json({ success: true, data: resultado });
 };
+
+exports.editUser = async (req, res, next) => {
+  console.log('EN CONTROLLER EDIT USER');
+  const { _id } = req.body;
+
+  try {
+    // have to change this
+    const updatedUser = await User.findByIdAndUpdate(_id, req.body, {
+      new: true,
+    });
+
+    console.log({ updatedUser })
+    res.status(200).json({ success: true, updatedUser })
+  } catch (error) {
+    console.log("Error agya hy")
+    res.status(500).json(error);
+  }
+}
 
 //cuando se registra o logea de forma correcta se llama a esta funcion
 const sendToken = (user, statusCode, res) => {

@@ -1,7 +1,11 @@
 import React from 'react'
 
-export const Spinner = () => {
+export const Spinner = (props) => {
+  const {enBoton} = props;
   return (
-      <div id="loading"></div>
+      <div 
+        className={enBoton && 'btn-spinner'}
+        id="loading">
+      </div>
   )
 }
