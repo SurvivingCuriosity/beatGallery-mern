@@ -31,9 +31,6 @@ const App = () => {
 		if (msg !== '') {
 			setOpenModal(true);
 		}
-		else {
-			setOpenModal(false)
-		}
 
 		if (updateData) {
 			dispatch(getUserPrivateDataAction());

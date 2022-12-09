@@ -4,7 +4,7 @@ export const Spinner = (props) => {
   const {enBoton} = props;
   return (
       <div 
-        className={enBoton && 'btn-spinner'}
+        className={enBoton===true && 'loading-btn'}
         id="loading">
       </div>
   )
