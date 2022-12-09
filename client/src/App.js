@@ -24,18 +24,31 @@ import { getUserPrivateDataAction } from './redux/Actions';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const { token, loading, msg, error, success, updateData } = useSelector((state) => state);
+	const { token, msg, error, success, updateData } = useSelector((state) => state);
 
 	React.useEffect(() => {
-		console.log(msg);
-		if (msg !== '') {
-			setOpenModal(true);
-		}
-
 		if (updateData) {
 			dispatch(getUserPrivateDataAction());
 		}
-	}, [msg, loading, error, dispatch]);
+	}, [updateData]);
+
+	React.useEffect(()=>{
+		let timeout;
+		if(msg===''){
+			return setOpenModal(false)
+		}else{
+			setOpenModal(false)
+			setOpenModal(true)
+			timeout = setTimeout(()=>{
+				setOpenModal(false)
+			},3000)
+		}
+
+
+		return(()=>{
+			clearTimeout(timeout);
+		})
+	},[msg])
 
 
 
@@ -49,17 +62,16 @@ const App = () => {
 		<Router>
 			{
 				<div className='App'>
-					{loading && <div className='popup-msg'>{msg}</div>}
+					{/* {loading && <div className='popup-msg'>{msg}</div>} */}
 
 					<Modal
 						isOpen={openModal}
 						handleClose={closeModal}
-						isError={error === false ? false : error}
+						isError={error === false ? false : true}
 						isSuccess={success === true ? true : false}
 					>
 						{error && <p>{error}</p>}
 						{msg && <p>{msg}</p>}
-
 					</Modal>
 
 					<Routes>

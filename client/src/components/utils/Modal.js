@@ -30,8 +30,8 @@ export const Modal = ({ children, isOpen, handleClose, isError, isSuccess }) => 
         <ReactPortal wrapperId="portal-root-modal">
             <div className="modal fade-out-afer-3s">
                 <div 
-                    className={`modal-content ${isError === false && 'modal-error'} ${isSuccess === false && 'modal-success'}`}>
-                    <button onClick={handleClose} className={`modal-close-btn ${isError === false && 'modal-btn-error'}${isSuccess === false ? '' : 'modal-btn-success'}`
+                    className={`modal-content ${isError === false ? '' : 'modal-error'} ${isSuccess === false ? '' : 'modal-success'}`}>
+                    <button onClick={handleClose} className={`modal-close-btn ${isError === false ? '' : 'modal-btn-error'}${isSuccess === false ? '' : 'modal-btn-success'}`
                     }>
                         x
                     </button>
