@@ -5,20 +5,14 @@ const router = express.Router();
 const {
     addBeat,
     deleteBeat,
-    getAllBeats,
-    getBeatsByUsername,
-    updateBeat,
+    editBeat,
     getBeatById
 } = require("../controllers/beat");
 
 
-router.get("/", getAllBeats);
-router.put("/update/:id", updateBeat);
-router.delete("/:id", deleteBeat);
-
-// router.get("/:username", protect, getBeatsByUsername);      
 router.post("/add", protect, addBeat);
-
+router.put("/update", protect, editBeat);
+router.delete("/delete", deleteBeat);
 router.get("/:id", protect, getBeatById);      
 
 module.exports = router;

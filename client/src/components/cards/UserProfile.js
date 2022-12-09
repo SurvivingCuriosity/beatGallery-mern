@@ -9,7 +9,7 @@ import spotify from '../../assets/imgs/icons/spotify.svg'
 import youtube from '../../assets/imgs/icons/youtube.svg'
 
 export const UserProfile = (props) => {
-    const { data, logoutCallback} = props;
+    const { data, logoutCallback } = props;
     return (
         <main className='user-profile fade-in'>
             <section className='caja --user-profile-main-info'>
@@ -20,18 +20,22 @@ export const UserProfile = (props) => {
                     <p className='--user-profile-username'>{data?.username}</p>
                 </FlexRow>
                 <FlexRow>
-                    <div className='--user-profile-tag'>
-                        productor
-                    </div>
-                    <div className='--user-profile-tag'>
-                        artista
-                    </div>
+                    {data?.isProducer === true &&
+                        <div className='--user-profile-tag'>
+                            productor
+                        </div>
+                    }
+                    {data?.isArtist === true &&
+                        <div className='--user-profile-tag'>
+                            artista
+                        </div>
+                    }
                 </FlexRow>
 
                 {/* nombre */}
-                <p>{data?.nombre || 'Tu nombre'}</p>
+                {data?.name && <p>{data.name}</p>}
                 {/* ciudad */}
-                <p>{data?.ubicación || 'Tierra, Universo'}</p>
+                {data?.location && <p>{data.location}</p>}
 
                 <Link to={'/profile/edit'} className='--user-profile-edit-profile-link'>
                     <FlexRow>
@@ -40,34 +44,47 @@ export const UserProfile = (props) => {
                     </FlexRow>
                 </Link>
             </section>
-
+            
             <section className='caja --user-profile-more-info'>
                 {/* about me */}
+
                 <p className='--user-profile-header-text'>Breve descripción sobre mi</p>
-                <p>{data?.aboutme || 'Lorem ipsum blablal cnos uqwroqmwofqw qwlas. Lorem ipsum blablal cnos uqwroqmwofqw qwlas'}</p>
+                <p>{data?.aboutme || 'Edita el perfil para agregar más datos.'}</p>
 
-                <p className='--user-profile-header-text'>Find me on:</p>
-                {/* link */}
-                <FlexRow gap='1em'>
-                    <FlexRow gap='0.25em'>
-                        <img src={twitter} alt='icono twitter' className='--user-profile-social-icon'></img>
-                        <p>FXY</p>
-                    </FlexRow>
-                    <FlexRow gap='0.25em'>
-                        <img src={spotify} alt='icono spotify' className='--user-profile-social-icon'></img>
-                        <p>FXY</p>
-                    </FlexRow>
-                    <FlexRow gap='0.25em'>
-                        <img src={youtube} alt='icono youtube' className='--user-profile-social-icon'></img>
-                        <p>FXY</p>
-                    </FlexRow>
-                    <FlexRow gap='0.25em'>
-                        <img src={instagram} alt='icono instagram' className='--user-profile-social-icon'></img>
-                        <p>FXY</p>
-                    </FlexRow>
-                </FlexRow>
+                {data?.twitter || data?.instagram || data?.youtube || data?.spotify &&
+                    <>
+                        <p className='--user-profile-header-text'>Find me on:</p>
+                        <FlexRow gap='1em'>
+                            {data?.twitter &&
+                                <FlexRow gap='0.25em'>
+                                    <img src={twitter} alt='icono twitter' className='--user-profile-social-icon'></img>
+                                    <p>{data?.twitter}</p>
+                                </FlexRow>
+                            }
+                            {data?.youtube &&
+                                <FlexRow gap='0.25em'>
+                                    <img src={youtube} alt='icono youtube' className='--user-profile-social-icon'></img>
+                                    <p>{data?.youtube}</p>
+                                </FlexRow>
+                            }
+                            {data?.instagram &&
+                                <FlexRow gap='0.25em'>
+                                    <img src={instagram} alt='icono instagram' className='--user-profile-social-icon'></img>
+                                    <p>{data?.instagram}</p>
+                                </FlexRow>
+                            }
+                            {data?.spotify &&
+                                <FlexRow gap='0.25em'>
+                                    <img src={spotify} alt='icono spotify' className='--user-profile-social-icon'></img>
+                                    <p>{data?.spotify}</p>
+                                </FlexRow>
+                            }
+                        </FlexRow>
+                    </>
+                }
 
-                    
+
+
             </section>
 
             <section className='caja --user-profile-user-beats'>

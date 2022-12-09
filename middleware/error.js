@@ -1,6 +1,8 @@
 const ErrorResponse = require('../utils/errorResponse');
 
 const errorHandler = (err, req, res, next) => {
+    console.log('en error handler');
+    console.log(err);
     let error = {...err};
     error.message = err.message;
     
@@ -17,8 +19,10 @@ const errorHandler = (err, req, res, next) => {
 
     res.status(error.status || 500).json({
         success: false,
-        error: error.message || 'Server Error'
+        error: error.message || 'Server unknown Error'
     })
+
+    next(error);
 }
 
 module.exports = errorHandler;

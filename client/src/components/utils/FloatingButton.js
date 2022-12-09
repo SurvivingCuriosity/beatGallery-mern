@@ -2,8 +2,12 @@ import React from 'react'
 import icon_save from '../../assets/imgs/icons/icon_save.svg'
 import icon_add from '../../assets/imgs/icons/icon_add.svg'
 import icon_search from '../../assets/imgs/icons/icon_search.svg'
+import { Spinner } from './Spinner';
+import { useSelector } from 'react-redux';
 export const FloatingButton = (props) => {
+    const { loading } = useSelector((state) => state);
     const { callback, action } = props;
+
     let icon = icon_add;
     const [iconState, setIconState] = React.useState(icon_save);
     React.useEffect(() => {
@@ -31,8 +35,14 @@ export const FloatingButton = (props) => {
         <button
             className='floating-button'
             onClick={handleClick}
+            disabled={loading === true ? true : false}
         >
-            <img src={iconState}></img>
+            {loading === true
+                ?
+                <Spinner enBoton={true} />
+                :
+                <img src={iconState}></img>
+            }
         </button>
     )
 }
