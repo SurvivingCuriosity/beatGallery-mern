@@ -10,6 +10,7 @@ import youtube from '../../assets/imgs/icons/youtube.svg'
 
 export const UserProfile = (props) => {
     const { data, logoutCallback } = props;
+    console.log(data?.twitter + data?.instagram + data?.youtube + data?.spotify);
     return (
         <main className='user-profile fade-in'>
             <section className='caja --user-profile-main-info'>
@@ -51,7 +52,7 @@ export const UserProfile = (props) => {
                 <p className='--user-profile-header-text'>Breve descripción sobre mi</p>
                 <p>{data?.aboutme || 'Edita el perfil para agregar más datos.'}</p>
 
-                {data?.twitter || data?.instagram || data?.youtube || data?.spotify &&
+                {data?.twitter + data?.instagram + data?.youtube + data?.spotify !== '' ?
                     <>
                         <p className='--user-profile-header-text'>Find me on:</p>
                         <FlexRow gap='1em'>
@@ -81,6 +82,8 @@ export const UserProfile = (props) => {
                             }
                         </FlexRow>
                     </>
+                    :
+                    ''
                 }
 
 

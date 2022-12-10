@@ -6,7 +6,6 @@ export const loginAction = (formData, navigate, evt) => async (dispatch) => {
     dispatch({ type: "AUTH_START" });
 
     const res = await login(formData);
-    console.log(res);
     /*
         res={
             data:{success: true, token:XXXXXXXXXXXXX}
@@ -64,7 +63,7 @@ export const getUserPrivateDataAction = () => async (dispatch) => {
 export const addBeatAction = (formData) => async (dispatch) => {
     dispatch({ type: "ADD_BEAT" });
     const res = await addBeat(formData);
-    console.log(res);
+    // console.log(res);
     if (res?.data?.success === true) {
         dispatch({ type: "ADD_BEAT_SUCCESS", data: res.data });
     } else {
@@ -75,7 +74,7 @@ export const addBeatAction = (formData) => async (dispatch) => {
 export const editBeatAction = (formData) => async (dispatch) => {
     dispatch({ type: "EDIT_BEAT" });
     const res = await editBeat(formData);
-    console.log(res);
+    // console.log(res);
     if (res?.data?.success === true) {
         dispatch({ type: "EDIT_BEAT_SUCCESS", data: res.data });
     } else {
@@ -83,10 +82,11 @@ export const editBeatAction = (formData) => async (dispatch) => {
     }
 };
 
-export const editProfileAction = (formData) => async (dispatch) => {
+export const editProfileAction = (formData, evt) => async (dispatch) => {
+    evt?.preventDefault();
     dispatch({ type: "EDIT_PROFILE" });
     const res = await editUser(formData);
-    console.log(res);
+    // console.log(res);
     if (res?.data?.success === true) {
         dispatch({ type: "EDIT_PROFILE_SUCCESS", data: res.data });
     } else {

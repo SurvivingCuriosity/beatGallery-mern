@@ -13,25 +13,14 @@ export const Modal = ({ children, isOpen, handleClose, isError, isSuccess }) => 
         };
     }, [handleClose]);
 
-
-    useEffect(() => {
-        const modalTimeout = setTimeout(() => {
-            setCerrarModal(true);
-        }, TIEMPO);
-
-        return () => {
-            clearTimeout(modalTimeout)
-        };
-    }, []);
-
     if (!isOpen) return null;
 
     return (
         <ReactPortal wrapperId="portal-root-modal">
-            <div className="modal fade-out-afer-3s">
+            <div className="modal">
                 <div 
-                    className={`modal-content ${isError === false && 'modal-error'} ${isSuccess === false && 'modal-success'}`}>
-                    <button onClick={handleClose} className={`modal-close-btn ${isError === false && 'modal-btn-error'}${isSuccess === false ? '' : 'modal-btn-success'}`
+                    className={`modal-content ${isError === true ? 'modal-error' : ''} ${isSuccess === true ? 'modal-success' : ''}`}>
+                    <button onClick={handleClose} className={`modal-close-btn ${isError === false ? 'modal-btn-error' : 'modal-close-btn'} ${isSuccess === false ? 'modal-close-btn' : 'modal-btn-success'}`
                     }>
                         x
                     </button>

@@ -17,17 +17,6 @@ const EditProfileScreen = () => {
     const [newData, setNewData] = React.useState(userData);
     const [mostrandoFormPass, setMostrandoFormPass] = useState(false);
 
-    const [error, setError] = useState("");
-
-    React.useEffect(() => {
-        console.log(newData);
-    }, [newData])
-
-    React.useEffect(() => {
-
-    }, [])
-
-
     const handleCheckbox = (e) => {
         setNewData((prevData) => {
             return {
@@ -37,14 +26,13 @@ const EditProfileScreen = () => {
         })
     }
 
-
-    const updateProfileHandler = (e) => {
-        dispatch(editProfileAction(newData));
+    const updateProfileHandler = (evt) => {
+        dispatch(editProfileAction(newData, evt));
     }
 
     return (
         <ScreenWithNav titulo='Edit profile'>
-            {error && <div>{error}</div>}
+
             <form noValidate className="login-register-form fade-in" autoComplete="off">
                 <Caja titulo='Main info'>
                     {/* USERNAME */}

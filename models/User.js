@@ -35,10 +35,10 @@ const UserSchema = new mongoose.Schema({
     name: String,
     location: String,
     aboutme: String,
-    twitter: String,
-    instagram: String,
-    spotify: String,
-    youtube: String,
+    twitter: {type: String, default:''},
+    instagram: {type: String, default:''},
+    spotify: {type: String, default:''},
+    youtube: {type: String, default:''},
     beats: [{
         type: mongoose.Types.ObjectId,
         ref: 'Beat'

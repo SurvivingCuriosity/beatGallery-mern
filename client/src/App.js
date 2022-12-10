@@ -27,22 +27,34 @@ const App = () => {
 	const { token, loading, msg, error, success, updateData } = useSelector((state) => state);
 
 	React.useEffect(() => {
-		console.log(msg);
-		if (msg !== '') {
-			setOpenModal(true);
-		}
-
 		if (updateData) {
 			dispatch(getUserPrivateDataAction());
 		}
-	}, [msg, loading, error, dispatch]);
+	}, [updateData]);
 
+	const [openModal, setOpenModal] = React.useState(msg==='' ? false : true);
 
+	React.useEffect(() => {
+		setOpenModal(()=>{return false});
+		if (msg !== '') {
+			//fuerzo abrirlo
+			setOpenModal(() => { return true });
+		}else{
+			setOpenModal(() => { return false });
+		}
+		
+		let timeout =setTimeout(() => {
+			setOpenModal(()=>{return false})
+		}, 3000);
 
-	const [openModal, setOpenModal] = React.useState(false);
+		return(()=>{
+			clearTimeout(timeout);
+		})
+	}, [msg]);
+
 
 	const closeModal = () => {
-		setOpenModal(false)
+		setOpenModal(() => { return false });
 	}
 
 	return (
@@ -54,7 +66,7 @@ const App = () => {
 					<Modal
 						isOpen={openModal}
 						handleClose={closeModal}
-						isError={error === false ? false : error}
+						isError={error === false ? false : true}
 						isSuccess={success === true ? true : false}
 					>
 						{error && <p>{error}</p>}
