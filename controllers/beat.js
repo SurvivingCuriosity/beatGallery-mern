@@ -38,11 +38,20 @@ exports.addBeat = async (req, res, next) => {
 
 }
 
-exports.deleteBeat = (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: "beat deleted",
-    });
+exports.deleteBeat = async (req, res, next) => {
+    // console.log('EN CONTROLLER DELETE BEAT');
+    const beatId = req.params.id;
+
+    try {
+        // have to change this
+        const deletedBeat = await Beat.findByIdAndDelete(beatId)
+
+        console.log({ deletedBeat })
+        res.status(200).json({ success: true, deletedBeat })
+    } catch (error) {
+        console.log("Error agya hy")
+        res.status(500).json(error);
+    }
 };
 
 exports.editBeat = async (req, res) => {

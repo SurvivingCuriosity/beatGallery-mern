@@ -15,24 +15,28 @@ import ResetPasswordScreen from './components/screens/auth/ResetPasswordScreen.j
 //PrivateScreens
 import EditProfileScreen from './components/screens/private/EditProfileScreen.js';
 import PublicProfileScreen from './components/screens/private/PublicProfileScreen.js';
+import PrivateProfileScreen from './components/screens/private/PrivateProfileScreen.js';
 import SearchScreen from './components/screens/private/SearchScreen';
 import MyBeatsScreen from './components/screens/private/MyBeatsScreen';
 import EditBeatScreen from './components/screens/private/EditBeatScreen';
 import AddBeatScreen from './components/screens/private/AddBeatScreen';
 import { Modal } from "./components/utils/Modal";
-import { getUserPrivateDataAction } from './redux/Actions';
+import { getUserPrivateDataAction, confirmDeleteBeat, messageShown, denyAction } from './redux/Actions';
+import { ConfirmModal } from './components/utils/ConfirmModal';
 
 const App = () => {
 	const dispatch = useDispatch();
-	const { token, loading, msg, error, success, updateData } = useSelector((state) => state);
+	const { token, loading, msg, error, success, updateData, needsConfirm, pendingAction } = useSelector((state) => state);
+	const [openModal, setOpenModal] = React.useState(msg==='' ? false : true);
+	const [openConfirmModal, setOpenConfirmModal] = React.useState(false);
 
 	React.useEffect(() => {
-		if (updateData) {
+		if (updateData===true) {
+			console.log('updating');
 			dispatch(getUserPrivateDataAction());
 		}
 	}, [updateData]);
 
-	const [openModal, setOpenModal] = React.useState(msg==='' ? false : true);
 
 	React.useEffect(() => {
 		setOpenModal(()=>{return false});
@@ -45,17 +49,42 @@ const App = () => {
 		
 		let timeout =setTimeout(() => {
 			setOpenModal(()=>{return false})
+			dispatch(messageShown());
 		}, 3000);
 
-		return(()=>{
-			clearTimeout(timeout);
-		})
+		return () => {
+			clearTimeout(timeout)
+		}
 	}, [msg]);
+
+	React.useEffect(() => {
+		setOpenConfirmModal(() => { return false });
+		if (!needsConfirm) {
+			setOpenConfirmModal(() => { return false });
+		} else {
+			setOpenConfirmModal(() => { return true });
+		}
+	}, [needsConfirm, pendingAction]);
 
 
 	const closeModal = () => {
 		setOpenModal(() => { return false });
+		setOpenConfirmModal(() => { return false });
 	}
+	const confirmPendingAction = () => {
+		switch (pendingAction?.action) {
+			case 'DELETE_BEAT':
+				dispatch(confirmDeleteBeat(pendingAction?.targetId))
+				break;
+		
+			default:
+				break;
+		}
+	} 
+	const denyPendingAction = () => {
+		setOpenConfirmModal(()=>{return false})
+		dispatch(denyAction())
+	} 
 
 	return (
 		<Router>
@@ -63,7 +92,7 @@ const App = () => {
 				<div className='App'>
 					{loading && <div className='popup-msg'>{msg}</div>}
 
-					<Modal
+					 <Modal
 						isOpen={openModal}
 						handleClose={closeModal}
 						isError={error === false ? false : true}
@@ -73,6 +102,18 @@ const App = () => {
 						{msg && <p>{msg}</p>}
 
 					</Modal>
+
+					<ConfirmModal
+						isOpen={openConfirmModal}
+						handleClose={closeModal}
+						isError={error === false ? false : true}
+						isSuccess={success === true ? true : false}
+						callbackNo={denyPendingAction}
+						callbackYes={confirmPendingAction}
+					>
+						{needsConfirm && <p>{needsConfirm}</p>}
+
+					</ConfirmModal>
 
 					<Routes>
 						{/*Rutas para la autenticacion*/}
@@ -85,6 +126,7 @@ const App = () => {
 							<Route exact path="/" element={token ? <HomeScreen /> : <LoginScreen />} />
 							<Route exact path="/search" element={token ? <SearchScreen /> : <LoginScreen />} />
 							<Route exact path="/profile/edit" element={token ? <EditProfileScreen /> : <LoginScreen />} />
+							<Route exact path="/profile" element={token ? <PrivateProfileScreen /> : <LoginScreen />} />
 							<Route exact path="/:username" element={token ? <PublicProfileScreen /> : <LoginScreen />} />
 							<Route exact path="/:username/beats" element={token ? <MyBeatsScreen /> : <LoginScreen />} />
 							<Route exact path="/:username/beats/add" element={token ? <AddBeatScreen /> : <LoginScreen />} />

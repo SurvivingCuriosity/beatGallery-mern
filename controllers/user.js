@@ -146,22 +146,13 @@ exports.getUserPublicData = async (req, res, next) => {
   console.log('CONTROLLER: getUserPublicData');
 
   const username = req.params.username;
+  console.log('El username: '+username);
 
-  const userId = req.body.userId;
-
-  let existingUser;
   try {
-    existingUser = await User.findOne({ userId });
-  } catch (err) {
-    return console.log(err);
-  }
-  if (!existingUser) {
-    return res.status(400).json({ message: "Unable TO FInd User By This ID" });
-  }
-  console.log('el usuairo existe');
-  try {
-    const data = await User.findOne({ username: username }).select('-_id -email');
-    res.status(200).json({ success: true, data })
+    const userPublicData = await User.findOne({ username }).select('-_id -email');
+    // console.log('la info:');
+    // console.log(userPublicData);
+    res.status(200).json({ success: true, userPublicData })
   } catch (err) {
     next(err);
   }

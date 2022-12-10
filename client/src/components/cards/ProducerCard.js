@@ -1,23 +1,33 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { FlexContainer } from '../containers/FlexContainer'
-import icon_editar from '../../assets/imgs/icons/icon_edit.svg'
+import { FlexRow } from '../containers/FlexRow'
+import { Link } from 'react-router-dom';
 
 export const ProducerCard = (props) => {
     const { data } = props;
-    console.log(data);
+
+
+    const goToUserProfile = () => {
+
+    }
+
     return (
-        <div id='user-beat-card'>
-
-            <p>{data.username}</p>
-            <p>{data.role}</p>
-
-            {/* <Link to={`/${username}/beat/${data._id}`}>
-                <img className='card-icono-editar' src={icon_editar} alt='icono_editar'>
-
-                </img>
-            </Link> */}
-
-        </div>
+        <Link to={`/${data.username}`}>
+            <div id='user-beat-card' onClick={goToUserProfile}>
+                <p>{data.username}</p>
+                <p>{data.role}</p>
+                <FlexRow>
+                    {data?.isProducer === true &&
+                        <div className='--user-profile-tag'>
+                            productor
+                        </div>
+                    }
+                    {data?.isArtist === true &&
+                        <div className='--user-profile-tag'>
+                            artista
+                        </div>
+                    }
+                </FlexRow>
+            </div>
+        </Link>
     )
 }

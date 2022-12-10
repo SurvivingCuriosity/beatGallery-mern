@@ -1,6 +1,6 @@
 import axios from 'axios'
 const CURRENT_STATUS = 'prod' //prod || dev
-const API_PREFIX_DEV = ''
+const API_PREFIX_DEV = 'http://192.168.1.35:5000'
 const API_PREFIX_PROD = 'https://beatgallery-api.vercel.app'
 const API_PREFIX = CURRENT_STATUS === 'dev' ? API_PREFIX_DEV : API_PREFIX_PROD;
 
@@ -61,22 +61,22 @@ export const fetchUserPrivateData = async () => {
         */
     } catch (error) {
         // handleAPIError(error)
-        console.log(error);
+        // console.log(error);
     }
 }
-
-
-export const getUserPublicData = async (username) => {
+//se lanza tras logearse o registrarse
+export const fetchUserPublicData = async (username) => {
     try {
-        const res = await axios.get(`${API_PREFIX}/api/user/public/${username}`, {
+        const publicUserData = await axios.get(`${API_PREFIX}/api/user/public/${username}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             },
         });
-        return res
+        return publicUserData;
     } catch (error) {
         handleAPIError(error)
+        // console.log(error);
     }
 }
 
@@ -132,8 +132,8 @@ export const addBeat = async (beatInfo) => {
 }
 
 export const editBeat = async (beatInfo) => {
-    console.log('En edit beat');
-    console.log(beatInfo);
+    // console.log('En edit beat');
+    // console.log(beatInfo);
     try {
         const res = await axios.put(`${API_PREFIX}/api/beat/update`, { ...beatInfo }, {
             headers: {
@@ -169,11 +169,28 @@ export const editUser = async (newData) => {
     }
 }
 
+export const deleteBeat = async (id) => {
+    try {
+        const res = await axios.delete(`${API_PREFIX}/api/beat/delete/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
+        return res;
+        // console.log(data);
+        // navigate(`/${localStorage.getItem('username')}/beats`);
+    } catch (error) {
+        handleAPIError(error)
+        // setError("You are not authorized please login");
+        // localStorage.removeItem("authToken");
+    }
+}
+
 export const handleAPIError = (err) => {
     let errormsg;
-    console.log(err);
-    const token = err.config.headers.Authorization.split(' ')[1];
-    console.log(err);
+    // console.log(err);
+    const token = err?.config?.headers?.Authorization?.split(' ')[1];
 
     if (!token) errormsg = 'no token'
     console.log('===ERROR EN APICALL=== ' + errormsg);

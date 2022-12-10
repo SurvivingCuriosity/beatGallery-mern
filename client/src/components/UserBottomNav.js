@@ -18,14 +18,14 @@ export const UserBottomNav = (props) => {
     const artistConfig = [
         { img: icon_home, text: 'Home', link: '/' },
         { img: icon_search, text: 'Search', link: '/search' },
-        { img: icon_user, text: 'Home2', link: `/${loggedUsername}` }
+        { img: icon_user, text: 'Home2', link: `/profile` }
     ]
     const producerConfig = [
         { img: icon_home, text: 'Home', link: '/' },
         { img: icon_search, text: 'Search', link: '/search' },
         { img: icon_add, text: 'Add Beat', link: `/${loggedUsername}/beats/add` },
         { img: icon_music_library, text: 'Beats', link: `/${loggedUsername}/beats` },
-        { img: icon_user, text: 'Perfil', link: `/${loggedUsername}` }
+        { img: icon_user, text: 'Perfil', link: `/profile` }
     ]
 
     const [activeConfig, setActiveConfig] = React.useState(isProducer ? producerConfig : artistConfig);
@@ -45,7 +45,6 @@ export const UserBottomNav = (props) => {
 
     React.useEffect(() => {
         if (redirect != '' && redirect != undefined && redirect != null) {
-            console.log(redirect);
             navigate(`${redirect}`, { replace: true })
             dispatch(navigationDone());
         }

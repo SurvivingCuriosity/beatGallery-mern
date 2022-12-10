@@ -4,9 +4,9 @@ const User = require("../models/User");
 
 
 async function protect(req, res, next) {
-	console.log('Accediendo a ruta protegida ' + req.route.path);
-	console.log('El body en protect');
-	console.log(req.body);
+	// console.log('Accediendo a ruta protegida ' + req.route.path);
+	// console.log('El body en protect');
+	// console.log(req.body);
 	let token;
 	if (
 		req.headers.authorization &&
@@ -21,14 +21,14 @@ async function protect(req, res, next) {
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		console.log(decoded.id);
+		// console.log(decoded.id);
 		const user = await User.findById(decoded.id);
 
 		if (!user) {
 			return next(new ErrorResponse("No user found with this id", 404));
 		}else{
-			console.log('EL USUARIO DE PROTECT');
-			console.log(user);
+			// console.log('EL USUARIO DE PROTECT');
+			// console.log(user);
 		}
 
 		req.body.userId = user._id;

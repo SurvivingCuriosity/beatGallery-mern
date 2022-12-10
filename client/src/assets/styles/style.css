@@ -56,14 +56,58 @@ html {
     transform: translate(-50%, 0);
 }
 
-.modal-content {
-    padding: 1.2em 2.5em;
+.confirm-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--negroTrans);
+    z-index: 5;
+    color: var(--blanco2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.confirm-modal-content {
+    position: relative;
+    z-index: 10;
+    color: var(--blanco2);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
     background-color: var(--fondo);
-    border-radius: 11px;
-    animation: slideIn 0.5s ease-out forwards;
+    border-radius: 8px;
+}
+
+.confirm-modal-content button {
+    color: var(--blanco2);
+}
+
+.modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    width: max-content;
+    padding: 1em 2em;
     border: 2px solid var(--gris);
+    border-radius: 11px;
+    background-color: var(--fondo);
     color: var(--gris);
+    font-size: 0.85em;
+    font-weight: 200;
+    animation: slideIn 0.5s ease-out forwards;
     transform: translateY(-10em);
+}
+
+.modal-content img {
+    width: 2em;
+    aspect-ratio: 1;
 }
 
 .modal-error {
@@ -85,6 +129,7 @@ html {
 }
 
 .modal-close-btn {
+    font-weight: 200;
     position: absolute;
     top: 0.25em;
     right: 0.25em;
@@ -227,19 +272,35 @@ a {
 .btn {
     border: none;
     font-weight: 500;
+    border-radius: 5px;
 }
 
 .btn-1 {
     background-color: var(--color4);
-    margin: 1.5em;
-    padding: 0.6em 1.75em;
     text-align: center;
     transition: 0.5s;
     background-size: 150% auto;
     color: var(--negro2);
-    border-radius: 5px;
-    display: block;
     border: 2px solid var(--negro2);
+    display: block;
+    margin: 1.5em;
+    padding: 0.6em 1.75em;
+}
+
+.btn-confirm {
+    margin: 1.5em;
+    padding: 0.6em 1.75em;
+    text-align: center;
+    background-color: var(--success);
+    color: var(--negro) !important;
+}
+
+.btn-deny {
+    margin: 1.5em;
+    padding: 0.6em 1.75em;
+    text-align: center;
+    background-color: var(--error);
+    color: var(--negro) !important;
 }
 
 .btn-start {
@@ -355,8 +416,8 @@ a {
 }
 
 .loading-btn {
-    width: 25px!important;
-    height: 25px!important;
+    width: 25px !important;
+    height: 25px !important;
 }
 
 @keyframes spin {
@@ -419,6 +480,7 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    gap: 0.5em;
     background-repeat: no-repeat;
     background-size: cover;
     background-position-y: bottom;
@@ -677,39 +739,89 @@ input[type='password']:focus::placeholder {
 /*FIN FIXED BOTTOM NAV*/
 
 /*CARDS*/
-#user-beat-card {
+#user-beat-card,
+#beat-card {
     position: relative;
     background-color: var(--fondo2);
-    padding: 1em;
+    padding: 0.5em;
     border-radius: 10px;
     font-weight: lighter;
+    display: flex;
+    justify-content: space-between;
 }
 
 .card-key-and-bpm {
     background-color: var(--color4);
     padding: 0.25em;
     border-radius: 5px;
-    position: absolute;
-    top: 50%;
-    right: 2.5em;
-    transform: translate(0, -50%);
+    font-size: 0.85em;
+    font-weight: 300;
+    width: max-content;
 }
 
 .card-tag {
     display: inline;
-    background-color: var(--color4);
+    background-color: var(--negro3);
     padding: 0.25em;
     border-radius: 8px;
     font-size: 0.8rem;
+    width: max-content;
 }
 
-.card-icono-editar {
+#beat-card img,
+#user-beat-card img {
     aspect-ratio: 1;
-    width: 1.5em;
-    position: absolute;
-    top: 50%;
-    right: 0.5em;
-    transform: translate(0, -50%);
+    width: 20px;
+}
+#beat-card .right-part,
+#user-beat-card .right-part {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.25em;
+    height: auto;
+    justify-content: space-between;
+    max-width: 40%;
+}
+#beat-card .left-part,
+#user-beat-card .left-part {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.25em;
+    height: auto;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 60%;
+}
+#beat-card .right-part span,
+#user-beat-card .right-part span,
+#beat-card .left-part span,
+#user-beat-card .left-part span{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+.beat-card-name{font-weight: 500; font-size: 1.1em;}
+.beat-card-genre{
+    font-size: 0.8em;
+    font-weight: 300;
+    padding: 0.25em;
+    border-radius: 7px;
+    background-color: var(--color4);
+    width: fit-content;
+}
+.user-beat-card-botones-container{
+    background-color: var(--negro);
+    padding: 0.25em;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    width: fit-content;
+}
+.user-beat-card-botones-container a,
+.user-beat-card-botones-container button{
+    width: 25px;
+    height: 22px;
 }
 
 /*FIN CARDS*/

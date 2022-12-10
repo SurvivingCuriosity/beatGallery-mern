@@ -9,8 +9,9 @@ import spotify from '../../assets/imgs/icons/spotify.svg'
 import youtube from '../../assets/imgs/icons/youtube.svg'
 
 export const UserProfile = (props) => {
-    const { data, logoutCallback } = props;
-    console.log(data?.twitter + data?.instagram + data?.youtube + data?.spotify);
+
+    const { data, logoutCallback, isPrivateProfile } = props;
+
     return (
         <main className='user-profile fade-in'>
             <section className='caja --user-profile-main-info'>
@@ -37,13 +38,14 @@ export const UserProfile = (props) => {
                 {data?.name && <p>{data.name}</p>}
                 {/* ciudad */}
                 {data?.location && <p>{data.location}</p>}
-
+                {isPrivateProfile && 
                 <Link to={'/profile/edit'} className='--user-profile-edit-profile-link'>
                     <FlexRow>
                         <p>Editar perfil</p>
                         <img src={icon_edit} alt='icono editar perfil'></img>
                     </FlexRow>
                 </Link>
+                }
             </section>
             
             <section className='caja --user-profile-more-info'>
@@ -98,8 +100,10 @@ export const UserProfile = (props) => {
                 <p className='--user-profile-header-text'>Saved beats:</p>
             </section>
 
-
-            <p className='--user-profile-logout-button' onClick={logoutCallback}>Cerrar sesión</p>
+            {isPrivateProfile &&
+                <p className='--user-profile-logout-button' onClick={logoutCallback}>Cerrar sesión</p>
+            }
+           
         </main>
     )
 }

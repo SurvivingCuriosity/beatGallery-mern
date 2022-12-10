@@ -28,7 +28,6 @@ export const FloatingButton = (props) => {
     }, [action])
 
     const handleClick = (evt) => {
-        console.log('Se pulsa boton, llamando a callback');
         callback();
     }
     return (

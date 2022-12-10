@@ -11,8 +11,6 @@ const AddBeatScreen = () => {
     const navigate = useNavigate();
     
     async function addBeatHandler(beatInfo) {
-        console.log('Add beat handler');
-        console.log(beatInfo);
         dispatch(addBeatAction(beatInfo));
     }
 

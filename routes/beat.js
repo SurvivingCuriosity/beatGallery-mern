@@ -12,7 +12,7 @@ const {
 
 router.post("/add", protect, addBeat);
 router.put("/update", protect, editBeat);
-router.delete("/delete", deleteBeat);
+router.delete("/delete/:id", protect, deleteBeat);
 router.get("/:id", protect, getBeatById);      
 
 module.exports = router;

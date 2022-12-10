@@ -1,31 +1,25 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserProfile } from '../../cards/UserProfile'
-import { logoutAction } from "../../../redux/Actions.js";
+import { fetchPublicUserData } from "../../../redux/Actions.js";
 import { ScreenWithNav } from "../../containers/ScreenWithNav";
 const PublicProfileScreen = () => {
-    const  userData  = useSelector((state) => state.userData);
+    const { publicUserData } = useSelector((state) => state);
     let param = useParams();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [error, setError] = useState("");
+    React.useEffect(() => {
+        //se obtienen los datos del usuario (se utiliza el presente en la URL)
+        dispatch(fetchPublicUserData(param.username))
+    }, [])
 
-
-    const handleLogout = (e) => {
-        e.preventDefault();
-        dispatch(logoutAction(navigate));
-    }
-    
-    
 
     return (
-        <ScreenWithNav titulo={`${userData?.username}'s profile`}>
-            {error && <p>{error}</p>}
+        <ScreenWithNav titulo={`${param.username}'s profile`}>
             <UserProfile
-                data={userData}
-                logoutCallback={handleLogout}
+                data={publicUserData}
+                isPrivateProfile={false}
             />
         </ScreenWithNav>
     );
