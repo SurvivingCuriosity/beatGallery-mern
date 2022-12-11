@@ -4,6 +4,7 @@ import { PopupMsg } from '../../utils/PopupMsg';
 import { PasswordInput } from '../../utils/PasswordInput'
 import { registerAction } from "../../../redux/Actions.js";
 import { useDispatch, useSelector } from "react-redux";
+import { FormButton } from "../../utils/FormButton";
 
 const RegisterScreen = () => {
     const navigate = useNavigate();
@@ -118,7 +119,11 @@ const RegisterScreen = () => {
                     </input>
                     <label htmlFor="register-artist-label">I'm an artist</label>
                 </div>
-                <button className="btn btn-1" type='submit'>Register</button>
+                <FormButton 
+                    callback={registerHandler}
+                    text='Register'
+                />
+                
             </form>
             <p className="bottom-text-register">Already have an account? Login <Link to='/login' className="btn btn-3">here</Link></p>
 

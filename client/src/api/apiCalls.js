@@ -80,26 +80,30 @@ export const fetchUserPublicData = async (username) => {
     }
 }
 
-export const getUserPrivateData = async () => {
-    try {
-        const res = await axios.get(`${API_PREFIX}/api/user/private`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-        });
-        return res
-    } catch (error) {
-        handleAPIError(error)
-    }
-}
-
 export const buscarUsuario = async (userText) => {
     try {
         const { data } = await axios.get(`${API_PREFIX}/api/user/buscar/${userText}`, config);
         return data;
     } catch (error) {
         handleAPIError(error)
+    }
+}
+
+export const editUser = async (newData) => {
+    try {
+        const res = await axios.put(`${API_PREFIX}/api/user/update`, { ...newData }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+        });
+        return res;
+        // console.log(data);
+        // navigate(`/${localStorage.getItem('username')}/beats`);
+    } catch (error) {
+        handleAPIError(error)
+        // setError("You are not authorized please login");
+        // localStorage.removeItem("authToken");
     }
 }
 
@@ -136,24 +140,6 @@ export const editBeat = async (beatInfo) => {
     // console.log(beatInfo);
     try {
         const res = await axios.put(`${API_PREFIX}/api/beat/update`, { ...beatInfo }, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-        });
-        return res;
-        // console.log(data);
-        // navigate(`/${localStorage.getItem('username')}/beats`);
-    } catch (error) {
-        handleAPIError(error)
-        // setError("You are not authorized please login");
-        // localStorage.removeItem("authToken");
-    }
-}
-
-export const editUser = async (newData) => {
-    try {
-        const res = await axios.put(`${API_PREFIX}/api/user/update`, { ...newData }, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,

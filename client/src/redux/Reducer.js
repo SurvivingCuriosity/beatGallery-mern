@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
             return { ...state, loading: false, error: true, msg: action.error,  updateData: false };
         case "LOG_OUT":
             localStorage.clear();
-            return { msg: 'See you soon' }
+            return { msg: 'See you soon', loading:true }
         // USER DATA
         case "GET_USER_PRIVATE_DATA":
             return { ...state, loading: true, updateData: false };

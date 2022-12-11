@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { FlexRow } from '../containers/FlexRow'
-import icon_editar from '../../assets/imgs/icons/icon_edit.svg'
-import icon_delete from '../../assets/imgs/icons/icon_delete.svg'
+import icon_paid from '../../assets/imgs/icons/icon_paid.svg'
+import icon_visibility from '../../assets/imgs/icons/icon_visibility.svg'
 import { deleteBeatAction } from '../../redux/Actions'
 import { useDispatch } from 'react-redux'
 
@@ -19,41 +19,33 @@ export const BeatCard = (props) => {
     const { data } = props;
     return (
         <div id='beat-card'>
+            <div className='right-part'>
+                <p className='beat-card-name'>{data.name}</p>
+                <p className='beat-card-genre'>{data.genre || 'Sin género'}</p>
+                <FlexRow rows gap={'0.25em'} >
+                    {data.tags?.split(',').map((tag, index) => {
+                        return (
+                            <div key={index} className='card-tag'>{tag || 'Sin tags'}</div>
+                        )
+                    })}
 
-            <p>{data.name}</p>
-            <p>{data.genre}</p>
-
-            <FlexRow rows gap={'0.25em'} >
-                {data.tags?.split(',').map((tag, index) => {
-                    return (
-                        <div key={index} className='card-tag'>{tag}</div>
-                    )
-                })}
-
-            </FlexRow>
-
-            <p>{data.isAvailable}</p>
-            <p>{data.isVisible}</p>
-
-
-            <div className='card-key-and-bpm'>
-                <p>{data.key + " " + data.scale}</p>
-                <p>{data.tempo}</p>
+                </FlexRow>
             </div>
-            <FlexRow>
-                <Link to={`/${username}/beat/${data._id}`}>
-                    <img className='card-icono-editar' src={icon_editar} alt='icono_editar'>
+            <div className='left-part'>
+                <FlexRow width='100%' alignItems='flex-end' gap='0.2em'>
+                    {data?.isFree === false && <img src={icon_paid}></img>}
+                    {data?.isAvailable && <p className='card-tag'>Available</p>}
 
-                    </img>
-                </Link>
+                    <div className='card-key-and-bpm'>
+                        <p>{data.key + " " + data.scale}</p>
+                        <p>{data.tempo}</p>
+                    </div>
+                </FlexRow>
+            </div>
+            
 
-                <button onClick={handleBorrarBeat}>
-                    <img className='card-icono-borrar' src={icon_delete} alt='icono_borrar'>
-
-                    </img>
-                </button>
-            </FlexRow>
-
+            
+            
         </div>
     )
 }

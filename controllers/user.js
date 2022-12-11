@@ -149,9 +149,10 @@ exports.getUserPublicData = async (req, res, next) => {
   console.log('El username: '+username);
 
   try {
-    const userPublicData = await User.findOne({ username }).select('-_id -email');
-    // console.log('la info:');
-    // console.log(userPublicData);
+    const userPublicData = await User.findOne({ username }).populate('beats').select('-_id -email');
+    //devuelvo solo los visibles
+    userPublicData.beats = userPublicData.beats.filter(beat => beat.isVisible === true)
+
     res.status(200).json({ success: true, userPublicData })
   } catch (err) {
     next(err);

@@ -4,7 +4,7 @@ import { PopupMsg } from "../../utils/PopupMsg";
 import { PasswordInput } from "../../utils/PasswordInput";
 import { loginAction } from "../../../redux/Actions.js";
 import { useDispatch, useSelector } from "react-redux";
-
+import { FormButton } from "../../utils/FormButton";
 
 function LoginScreen(){
     const navigate = useNavigate();
@@ -53,7 +53,10 @@ function LoginScreen(){
                 />
 
                 <Link to='/forgotPassword' className='btn btn-3' style={{ marginTop: '1em' }}>Forgot password</Link>
-                <button className="btn btn-1" type='submit'>Login</button>
+                <FormButton
+                    callback={loginHandler}
+                    text='Login'
+                />
             </form>
             <p className="bottom-text-register">New to this site? Register <Link className='btn btn-3' to='/register'>here</Link></p>
 
