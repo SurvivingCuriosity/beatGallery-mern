@@ -31,10 +31,6 @@ const App = () => {
 	const [openConfirmModal, setOpenConfirmModal] = React.useState(false);
 
 	React.useEffect(() => {
-		localStorage.clear();
-	}, []);
-
-	React.useEffect(() => {
 		if (updateData===true) {
 			dispatch(getUserPrivateDataAction());
 		}
@@ -93,8 +89,6 @@ const App = () => {
 		<Router>
 			{
 				<div className='App'>
-					{loading && <div className='popup-msg'>{msg}</div>}
-
 					 <Modal
 						isOpen={openModal}
 						handleClose={closeModal}
