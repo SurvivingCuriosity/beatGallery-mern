@@ -31,6 +31,10 @@ const App = () => {
 	const [openConfirmModal, setOpenConfirmModal] = React.useState(false);
 
 	React.useEffect(() => {
+		localStorage.clear();
+	}, []);
+
+	React.useEffect(() => {
 		if (updateData===true) {
 			dispatch(getUserPrivateDataAction());
 		}
