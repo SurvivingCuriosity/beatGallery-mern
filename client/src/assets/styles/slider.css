@@ -1,0 +1,23 @@
+.rc-slider-mark {
+    padding-top: 0px;
+}
+
+.rc-slider-handle {
+    opacity: 1!important;
+    background-color: var(--negro)!important;
+    border: solid 2px var(--negro3)!important;
+}
+.rc-slider-handle:active, 
+.rc-slider-handle:focus-visible {
+    opacity: 1 !important;
+    background-color: var(--negro) !important;
+    border: solid 2px var(--negro3) !important;
+    box-shadow: none;
+}
+.rc-tooltip-inner {
+    font-size: 0.8em;
+    padding: 2px 4px;
+}
+.rc-tooltip-content{
+    margin-top: 15px;
+}

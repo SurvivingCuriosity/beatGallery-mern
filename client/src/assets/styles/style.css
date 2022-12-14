@@ -7,7 +7,7 @@
 
 :root {
     /*COLORES*/
-    --negroTrans: rgba(0, 0, 0, 0.95);
+    --negroTrans: rgba(0, 0, 0, 0.92);
     --negro: #111;
     --negro2: #222;
     --negro3: #333;
@@ -292,6 +292,17 @@ a {
 
 .btn-1 {
     background-color: var(--color4);
+    text-align: center;
+    transition: 0.5s;
+    background-size: 150% auto;
+    color: var(--negro2);
+    border: 2px solid var(--negro2);
+    display: block;
+    margin: 1.5em 0em;
+    padding: 0.6em 1.75em;
+}
+.btn-2 {
+    background-color: var(--gris);
     text-align: center;
     transition: 0.5s;
     background-size: 150% auto;
@@ -984,3 +995,49 @@ input[type='password']:focus::placeholder {
 }
 
 /*FIN USER PROFILE*/
+
+/* FILTROS */
+.btn-abrir-filtros{
+    color:var(--color4);
+    padding: 0.25em 5em;
+    border: 1px solid var(--color4);
+}
+.filtros-container{
+    border: 1px solid var(--color4);
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: var(--negroTrans);
+    z-index: 5;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;    
+    padding: 2.25em 1em;    
+    gap: 1em;
+}
+.single-filter{
+    width: 100%;
+    padding-bottom: 1em;
+}
+.filtros-container .btn-1,
+.filtros-container .btn-2{
+    padding: 0.25em;
+    margin: 0;
+}
+.filtros-preview-container{
+    background-color: var(--gris);
+    padding: 0.5em;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.25em;
+
+}
+.preview-single-filter{
+    background-color: var(--negro3);
+    color: var(--blanco2);
+    padding: 0.5em 0.9em;
+    border-radius: 40px;
+    width: fit-content;
+    font-size: 0.8em;
+}
+/* FIN FILTROS */

@@ -32,8 +32,6 @@ const RegisterScreen = () => {
         evt.preventDefault();
         if (username !== '' && email !== '' && password !== '')
             dispatch(registerAction({ username, email, password, isProducer, isArtist }, navigate, evt));
-        else
-            setError('asdasd')
     }
 
     const handleCheckbox = (e) => {
@@ -52,8 +50,6 @@ const RegisterScreen = () => {
     return (
         <div className="register-screen screen">
             <Link className='logo-link-welcome' to='/welcome'>BeatGallery</Link>
-
-            {error && <PopupMsg type='error' msg={error} />}
             <form noValidate onSubmit={registerHandler} className="login-register-form fade-in" autoComplete="off">
                 <h2 className="titulo-screen">Register</h2>
                 <label htmlFor="register-user-label">Username:</label>

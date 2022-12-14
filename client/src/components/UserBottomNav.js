@@ -10,7 +10,7 @@ import { navigationDone } from '../redux/Actions';
 export const UserBottomNav = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isProducer } = props;
+    const { isProducer, hide } = props;
     const loggedUser = useSelector((state) => state?.userData);
     const loggedUsername = loggedUser?.username;
     const { redirect } = useSelector((state) => state);
@@ -18,7 +18,7 @@ export const UserBottomNav = (props) => {
     const artistConfig = [
         { img: icon_home, text: 'Home', link: '/' },
         { img: icon_search, text: 'Search', link: '/search' },
-        { img: icon_user, text: 'Home2', link: `/profile` }
+        { img: icon_user, text: 'Perfil', link: `/profile` }
     ]
     const producerConfig = [
         { img: icon_home, text: 'Home', link: '/' },
@@ -32,6 +32,24 @@ export const UserBottomNav = (props) => {
 
     React.useEffect(() => {
         /*RESALTA EL ENLACE ACTUAL BASED ON PATH*/
+        resaltaEnlaceActivo();
+    }, []);
+
+    React.useEffect(() => {
+        if (redirect != '' && redirect != undefined && redirect != null) {
+            navigate(`${redirect}`, { replace: true })
+            dispatch(navigationDone());
+        }
+
+    }, [redirect])
+
+    React.useEffect(() => {
+        setActiveConfig(isProducer ? producerConfig : artistConfig)
+        resaltaEnlaceActivo();
+    }, [isProducer])
+
+
+    const resaltaEnlaceActivo = () => {
         const newState = activeConfig.map((menuItem) => {
             if (menuItem.link === window.location.pathname) {
                 return { ...menuItem, active: true }
@@ -40,19 +58,35 @@ export const UserBottomNav = (props) => {
             }
         })
         setActiveConfig(newState);
+    }
 
-    }, []);
-
-    React.useEffect(() => {
-        if (redirect != '' && redirect != undefined && redirect != null) {
-            navigate(`${redirect}`, { replace: true })
-            dispatch(navigationDone());
-        }
-    
-    }, [redirect])
-    
-
-
+    if (hide) return (
+        <nav className="fixed-bottom-nav">
+            <ul>
+                <li>
+                    <Link to={'/search'} >
+                        <img
+                            className={window.location.pathname === '/search' ? `menu-item-activo` : ''}
+                            src={icon_search}
+                            alt='search icon'
+                            name='search'
+                        />
+                        <p className={window.location.pathname === '/search' ? `menu-item-text-activo` : ''} style={{ fontSize: '0.75em', textAlign: 'center' }}>Search</p>
+                    </Link>
+                </li>
+                <li>
+                    <Link to={'/welcome'} >
+                        <img
+                            src={icon_home}
+                            alt='go back icon'
+                            name='goback'
+                        />
+                        <p style={{ fontSize: '0.75em', textAlign: 'center' }}>Go back</p>
+                    </Link>
+                </li>
+            </ul>
+        </nav>
+    );
     return (
         <nav className="fixed-bottom-nav">
             <ul>

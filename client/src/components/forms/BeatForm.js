@@ -145,8 +145,6 @@ export const BeatForm = (props) => {
                         checked={beatInfo.isAvailable}
                         callback={handleCheckbox}
                     />
-
-                    {/* <button className="btn btn-1" type='submit'>Add beat</button> */}
                 </FlexContainer>
             </form>
             <FloatingButton action={action} callback={submitHandler} />

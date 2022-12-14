@@ -26,10 +26,10 @@ const reducer = (state = initialState, action) => {
             localStorage.setItem('authToken', action?.token);
             return { ...state, token: action.token, loading: false, error: false, msg: 'Welcome', updateData: true, redirect: '/' };
         case "AUTH_FAIL":
-            return { ...state, loading: false, error: true, msg: action.error,  updateData: false };
+            return { ...state, loading: false, error: true, msg: action.error, updateData: false };
         case "LOG_OUT":
             localStorage.clear();
-            return { msg: 'See you soon', loading:true }
+            return { msg: 'See you soon' }
         // USER DATA
         case "GET_USER_PRIVATE_DATA":
             return { ...state, loading: true, updateData: false };
@@ -41,23 +41,23 @@ const reducer = (state = initialState, action) => {
         case "GET_USER_PUBLIC_DATA":
             return { ...state, loading: true };
         case "GET_USER_PUBLIC_DATA_SUCCESS":
-            return { ...state, publicUserData: action.data, loading: false, error: false, success: true};
+            return { ...state, publicUserData: action.data, loading: false, error: false, success: true };
         case "GET_USER_PUBLIC_DATA_FAIL":
-            return { ...state, loading: false, error: true, msg: 'Couldn\'t get user data'};
+            return { ...state, loading: false, error: true, msg: 'Couldn\'t get user data' };
         // ADD_BEAT
         case "ADD_BEAT":
             return { ...state, loading: true };
         case "ADD_BEAT_SUCCESS":
             return { ...state, loading: false, error: false, msg: 'Beat added succesfully', success: true, updateData: true, redirect: `/${JSON.parse(localStorage.getItem('store')).userData.username}/beats` };
         case "ADD_BEAT_FAIL":
-            return { ...state, loading: false, error: true, success: false, msg: 'Error adding beat'};
+            return { ...state, loading: false, error: true, success: false, msg: 'Error adding beat' };
         // EDIT_BEAT
         case "EDIT_BEAT":
             return { ...state, loading: true };
         case "EDIT_BEAT_SUCCESS":
             return { ...state, loading: false, error: false, msg: 'Beat updated succesfully', success: true, updateData: true, redirect: `/${JSON.parse(localStorage.getItem('store')).userData.username}/beats` };
         case "EDIT_BEAT_FAIL":
-            return { ...state, loading: false, error: true, msg: 'Error updating beat'};
+            return { ...state, loading: false, error: true, msg: 'Error updating beat' };
         // DELETE_BEAT
         case "DELETE_BEAT":
             return { ...state, needsConfirm: 'Do you want to delete this beat?', pendingAction: { action: 'DELETE_BEAT', targetId: action.data } };
@@ -73,7 +73,7 @@ const reducer = (state = initialState, action) => {
         case "EDIT_PROFILE_SUCCESS":
             return { ...state, loading: false, error: false, msg: 'Profile updated !', success: true, updateData: true, redirect: `/${JSON.parse(localStorage.getItem('store')).userData.username}` };
         case "EDIT_PROFILE_FAIL":
-            return { ...state, loading: false, error: true, msg: 'Error updating profile'};
+            return { ...state, loading: false, error: true, msg: 'Error updating profile' };
         default:
             return state;
     }

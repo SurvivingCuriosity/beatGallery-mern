@@ -15,7 +15,6 @@ export const UserBeatCard = (props) => {
 
     const handleBorrarBeat = () => {
         dispatch(deleteBeatAction(data._id));
-        console.log();
     }
 
     const { data } = props;
@@ -24,17 +23,21 @@ export const UserBeatCard = (props) => {
             <div className='right-part'>
                 <p className='beat-card-name'>{data.name}</p>
 
-                <span>
-                    <FlexRow rows gap={'0.25em'} wrap='wrap' >
-                        {data.tags?.split(',').map((tag, index) => {
-                            return (
-                                <div key={index} className='card-tag'>{tag}</div>
-                            )
-                        })}
+                {data?.tags !== '' &&
+                    <span>
+                        <FlexRow rows gap={'0.25em'} wrap='wrap' >
+                            {data.tags?.split(',').map((tag, index) => {
+                                return (
+                                    <div key={index} className='card-tag'>{tag}</div>
+                                )
+                            })}
 
-                    </FlexRow>
+                        </FlexRow>
+                    </span>
+                }
+                {data.genre !== '' &&
                     <p className='beat-card-genre'>{data.genre}</p>
-                </span>
+                }
             </div>
 
             <div className='left-part'>
@@ -48,7 +51,7 @@ export const UserBeatCard = (props) => {
                     </button>
                 </div>
                 <FlexRow width='100%' alignItems='flex-end' gap='0.2em'>
-                    {data?.isFree===false && <img src={icon_paid}></img>}
+                    {data?.isFree === false && <img src={icon_paid}></img>}
                     {data?.isVisible && <img src={icon_visibility}></img>}
                     {data?.isAvailable && <p className='card-tag'>Available</p>}
 
@@ -56,10 +59,10 @@ export const UserBeatCard = (props) => {
                         <p>{data.key + " " + data.scale}</p>
                         <p>{data.tempo}</p>
                     </div>
-                    
+
                 </FlexRow>
             </div>
-            
+
         </div>
     )
 }

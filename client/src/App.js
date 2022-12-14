@@ -32,7 +32,6 @@ const App = () => {
 
 	React.useEffect(() => {
 		if (updateData===true) {
-			console.log('updating');
 			dispatch(getUserPrivateDataAction());
 		}
 	}, [updateData]);
@@ -121,13 +120,15 @@ const App = () => {
 						<Route exact path="/register" element={token ? <HomeScreen /> : <RegisterScreen />} />
 						<Route exact path="/forgotPassword" element={<ForgotPasswordScreen />} />
 						<Route exact path="/resetPassword/:resetToken" element={<ResetPasswordScreen />} />
+						{/* Rutas publicas */}
+						<Route exact path="/search" element={<SearchScreen />} />
+						<Route exact path="/:username" element={<PublicProfileScreen />} />
+
 						{/*Rutas privadas para artistas y productores*/}
 						<Route element={<PrivateRoutes />}>
 							<Route exact path="/" element={token ? <HomeScreen /> : <LoginScreen />} />
-							<Route exact path="/search" element={token ? <SearchScreen /> : <LoginScreen />} />
 							<Route exact path="/profile/edit" element={token ? <EditProfileScreen /> : <LoginScreen />} />
 							<Route exact path="/profile" element={token ? <PrivateProfileScreen /> : <LoginScreen />} />
-							<Route exact path="/:username" element={token ? <PublicProfileScreen /> : <LoginScreen />} />
 							<Route exact path="/:username/beats" element={token ? <MyBeatsScreen /> : <LoginScreen />} />
 							<Route exact path="/:username/beats/add" element={token ? <AddBeatScreen /> : <LoginScreen />} />
 							<Route exact path="/:username/beat/:id" element={token ? <EditBeatScreen /> : <LoginScreen />} />
